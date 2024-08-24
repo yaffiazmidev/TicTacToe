@@ -13,6 +13,8 @@
 		3C9F67FD2C79D7EB005B2A33 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 3C9F67FC2C79D7EB005B2A33 /* Base */; };
 		3C9F67FF2C79D7EC005B2A33 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C9F67FE2C79D7EC005B2A33 /* Assets.xcassets */; };
 		3C9F68022C79D7EC005B2A33 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 3C9F68012C79D7EC005B2A33 /* Base */; };
+		3C9F680F2C7AA658005B2A33 /* TicTacToeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C9F680E2C7AA658005B2A33 /* TicTacToeViewController.xib */; };
+		3C9F68102C7AA658005B2A33 /* TicTacToeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9F680D2C7AA658005B2A33 /* TicTacToeViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		3C9F67FE2C79D7EC005B2A33 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3C9F68012C79D7EC005B2A33 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3C9F68032C79D7EC005B2A33 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3C9F680D2C7AA658005B2A33 /* TicTacToeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicTacToeViewController.swift; sourceTree = "<group>"; };
+		3C9F680E2C7AA658005B2A33 /* TicTacToeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TicTacToeViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +67,8 @@
 				3C9F67FE2C79D7EC005B2A33 /* Assets.xcassets */,
 				3C9F68002C79D7EC005B2A33 /* LaunchScreen.storyboard */,
 				3C9F68032C79D7EC005B2A33 /* Info.plist */,
+				3C9F680D2C7AA658005B2A33 /* TicTacToeViewController.swift */,
+				3C9F680E2C7AA658005B2A33 /* TicTacToeViewController.xib */,
 			);
 			path = TicTacToe;
 			sourceTree = "<group>";
@@ -128,6 +134,7 @@
 				3C9F67FF2C79D7EC005B2A33 /* Assets.xcassets in Resources */,
 				3C9F68022C79D7EC005B2A33 /* Base in Resources */,
 				3C9F67FD2C79D7EB005B2A33 /* Base in Resources */,
+				3C9F680F2C7AA658005B2A33 /* TicTacToeViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,6 +148,7 @@
 				3C9F67FA2C79D7EB005B2A33 /* ViewController.swift in Sources */,
 				3C9F67F62C79D7EB005B2A33 /* AppDelegate.swift in Sources */,
 				3C9F67F82C79D7EB005B2A33 /* SceneDelegate.swift in Sources */,
+				3C9F68102C7AA658005B2A33 /* TicTacToeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

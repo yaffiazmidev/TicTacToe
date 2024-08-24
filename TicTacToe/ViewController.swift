@@ -23,159 +23,146 @@ class ViewController: UIViewController {
     @IBOutlet weak var c2: UIButton!
     @IBOutlet weak var c3: UIButton!
     
-    private enum Turn {
-        case NOUGHT
-        case CROSS
-    }
-    
-    private var firstTurn: Turn = .NOUGHT
-    private var currentTurn: Turn = .CROSS
-    
-    private let NOUGHT: String = "O"
-    private let CROSS: String = "X"
-    
-    private var board: [UIButton] = []
-    
-    private var noughtsScore: Int = 0
-    private var crossesScore: Int = 0
+    private var game: Game?
+    private var buttons: [UIButton] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        game = Game(currentPlayer: .nought, board: Board())
         initBoard()
     }
     
     private func initBoard() {
-        board.append(a1)
-        board.append(a2)
-        board.append(a3)
-        board.append(b1)
-        board.append(b2)
-        board.append(b3)
-        board.append(c1)
-        board.append(c2)
-        board.append(c3)
+        buttons = [a1, a2, a3, b1, b2, b3, c1, c2, c3]
+    }
+    
+    @IBAction func didTapButton(_ sender: Any) {
+        navigationController?.pushViewController(UIViewController(), animated: true)
     }
     
     @IBAction func boardTapAction(_ sender: UIButton) {
-        addToBoard(sender)
-        
-        if checkForVictory(CROSS) {
-            crossesScore += 1
-            resultAlert(title: "Crosses Win!")
-        }
-        
-        if checkForVictory(NOUGHT) {
-            noughtsScore += 1
-            resultAlert(title: "Noughts Win!")
-        }
-        
-        if fullBoard() {
-            resultAlert(title: "Draw")
+        guard let index = buttonIndex(for: sender) else { return }
+        if game?.makeMove(at: index) == true {
+            updateBoard(index: index)
+            checkGameState()
         }
     }
     
-    func checkForVictory(_ s: String) -> Bool {
-        
-        // Horizontal Victory
-        if setVictory(first: a1, mid: a2, last: a3, s) {
-            return true
-        }
-        
-        if setVictory(first: b1, mid: b2, last: b3, s) {
-            return true
-        }
-        
-        if setVictory(first: c1, mid: c2, last: c3, s) {
-            return true
-        }
-        
-        // Vertical Victory
-        if setVictory(first: a1, mid: b1, last: c1, s) {
-            return true
-        }
-        
-        if setVictory(first: a2, mid: b2, last: c2, s) {
-            return true
-        }
-        
-        if setVictory(first: a3, mid: b3, last: c3, s) {
-            return true
-        }
-        
-        // Diagonal Victory
-        if setVictory(first: a1, mid: b2, last: c3, s) {
-            return true
-        }
-        
-        if setVictory(first: a3, mid: b2, last: c1, s) {
-            return true
-        }
-        
-        return false
+    private func buttonIndex(for button: UIButton) -> Int? {
+        return buttons.firstIndex(of: button)
     }
     
-    func setVictory(first: UIButton, mid: UIButton, last: UIButton, _ s: String) -> Bool {
-        return thisSymbol(first, s) && thisSymbol(mid, s) && thisSymbol(last, s)
+    private func updateBoard(index: Int) {
+        // Update UI elements based on the game board
+        buttons[index].setTitle(game?.currentPlayer.symbol, for: .normal)
     }
     
-    func thisSymbol(_ button: UIButton, _ symbol: String) -> Bool {
-        return button.title(for: .normal) == symbol
+    private func checkGameState() {
+        if let winner = game?.checkForWin() {
+            print(winner)
+            showResultAlert(title: winner.rawValue.uppercased())
+        } else if game?.checkForDraw() == true {
+            print("Draw")
+            showResultAlert(title: "Draw")
+        } else {
+            // Switch players and update UI
+            if game?.currentPlayer == .nought {
+                game?.currentPlayer = .cross
+            } else {
+                game?.currentPlayer = .nought
+            }
+        }
     }
     
-    private func resultAlert(title: String) {
-        let message = "\nNoughts \(noughtsScore) \n\nCrosses \(crossesScore)"
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+    private func showResultAlert(title: String) {
+//        let message = "\nNoughts \(noughtsScore) \n\nCrosses \(crossesScore)"
+        let alertController = UIAlertController(title: title, message: "", preferredStyle: .actionSheet)
         alertController.addAction(UIAlertAction(title: "Reset", style: .default, handler: { [weak self] _ in
             self?.resetBoard()
         }))
-        self.present(alertController, animated: true)
+        
+        present(alertController, animated: true)
     }
     
-    func resetBoard() {
-        board.forEach { button in
-            button.setTitle(nil, for: .normal)
-            button.isEnabled = true
-        }
-        
-        if firstTurn == .NOUGHT {
-            firstTurn = .CROSS
-            turnLabel.text = CROSS
-        }
-        
-        if firstTurn == .CROSS {
-            firstTurn = .NOUGHT
-            turnLabel.text = NOUGHT
-        }
-        
-        currentTurn = firstTurn
-    }
-    
-    private func fullBoard() -> Bool {
-        for button in board {
-            if button.title(for: .normal) == nil {
-                return false
-            }
-        }
-        return true
-    }
-    
-    private func addToBoard(_ sender: UIButton) {
-        
-        if sender.title(for: .normal) == nil {
-            
-            if currentTurn == .NOUGHT {
-                sender.setTitle(NOUGHT, for: .normal)
-                currentTurn = .CROSS
-                turnLabel.text = CROSS
-                
-            } else if currentTurn == .CROSS {
-                sender.setTitle(CROSS, for: .normal)
-                currentTurn = .NOUGHT
-                turnLabel.text = NOUGHT
-            }
-            
-            sender.isEnabled = false
+    private func resetBoard() {
+        game?.board.resetBoard()
+        buttons.forEach { button in
+            button.setTitle("", for: .normal)
         }
     }
 }
 
+class Board {
+    var cells: [String] = Array(repeating: "", count: 9)
+
+    func isFull() -> Bool {
+        return !cells.contains("")
+    }
+
+    func makeMove(at index: Int, symbol: String) -> Bool {
+        guard cells[index].isEmpty else { return false }
+        cells[index] = symbol
+        return true
+    }
+
+    func checkForWin(symbol: String) -> Bool {
+        let winningCombinations: [(Int, Int, Int)] = [
+            // Horizontal
+            (0, 1, 2), (3, 4, 5), (6, 7, 8),
+            // Vertical
+            (0, 3, 6), (1, 4, 7), (2, 5, 8),
+            // Diagonal
+            (0, 4, 8), (2, 4, 6)
+        ]
+
+        return winningCombinations.contains { combination in
+            let (i, j, k) = combination
+            return cells[i] == symbol && cells[j] == symbol && cells[k] == symbol
+        }
+    }
+    
+    func resetBoard() {
+        cells = Array(repeating: "", count: 9)
+    }
+}
+
+class Game {
+    enum Player: String {
+        case nought, cross
+
+        var symbol: String {
+            switch self {
+            case .nought:
+                return "O"
+            case .cross:
+                return "X"
+            }
+        }
+    }
+
+    var currentPlayer: Player
+    var board: Board
+    
+    init(currentPlayer: Player, board: Board) {
+        self.currentPlayer = currentPlayer
+        self.board = board
+    }
+
+    func makeMove(at index: Int) -> Bool {
+        return board.makeMove(at: index, symbol: currentPlayer.symbol)
+    }
+
+    func checkForWin() -> Player? {
+        if board.checkForWin(symbol: Player.nought.symbol) {
+            return .nought
+        } else if board.checkForWin(symbol: Player.cross.symbol) {
+            return .cross
+        } else {
+            return nil
+        }
+    }
+
+    func checkForDraw() -> Bool {
+        return board.isFull() && checkForWin() == nil
+    }
+}
