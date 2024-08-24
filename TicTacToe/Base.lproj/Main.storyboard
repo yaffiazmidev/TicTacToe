@@ -158,6 +158,18 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Wkp-wD-vMa" secondAttribute="trailing" constant="16" id="ohw-6o-49a"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="a1" destination="0yY-6f-z1n" id="amH-6S-ibN"/>
+                        <outlet property="a2" destination="DDq-8F-aXs" id="eOB-Is-ZiG"/>
+                        <outlet property="a3" destination="dzM-yq-FpE" id="mHY-e1-Hfx"/>
+                        <outlet property="b1" destination="7WU-P2-VT5" id="34E-Jb-ft4"/>
+                        <outlet property="b2" destination="Vsv-Ev-USW" id="Qyd-L7-wDm"/>
+                        <outlet property="b3" destination="RrT-NH-1L5" id="SHr-qw-2rT"/>
+                        <outlet property="c1" destination="wKJ-lq-cLf" id="iOy-0r-aNp"/>
+                        <outlet property="c2" destination="eiI-zn-pkS" id="d8N-kb-gau"/>
+                        <outlet property="c3" destination="pTD-f1-sF2" id="yHX-k6-eGP"/>
+                        <outlet property="turnLabel" destination="5XJ-im-9lp" id="6bW-E1-XXT"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
